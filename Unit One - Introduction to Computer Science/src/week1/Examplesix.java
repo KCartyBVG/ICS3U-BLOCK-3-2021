@@ -27,5 +27,19 @@ public class Examplesix {
 
         y = y % 2; // equivalent to y %= 2;
 
+
+        int a = 5;
+        a++;
+        ++a;
+        a--;
+        --a;
+
+        int b = 3;
+        int e = 3;
+
+
+        int c = 2 * b++;
+        int d = 2 * ++e;
+
     }
 }
