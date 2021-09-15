@@ -118,12 +118,13 @@ public class HMW1 {
         firstRoot = -b+firstRoot;
         double secondRoot = b+firstRoot/2*a;
         firstRoot = firstRoot/2*a;//Everytime I try to do this equation in different ways it comes out as NaN
-
+                                    // I had just picked bad numbers 
         System.out.println(firstRoot);
 
         System.out.println(secondRoot);
 
 
+        
         //  = (-1*b+ Math.sqrt(b*b-4*a*c)) /2*a;
         //  = (-1 * b - Math.sqrt(b*b - 4*a*c)) /2*a;
 
