@@ -69,10 +69,10 @@ public class HMW1 {
          * Create a program that can solve the equation y = ax^2+bx+c given a, b, c and x.
          */
 
-        final int a = 4;
-        final int b = 5;
-        final int c = 6;
-        final int x = 7;
+        int a = 4;
+        int b = 5;
+        int c = 6;
+        int x = 7;
 
         int y = a*x*x+b*x+c; 
 
@@ -110,14 +110,19 @@ public class HMW1 {
           * Math.sqrt(x), where x is a value can be used to calculate the square root. Given an equation in the format from question 7.  Obtain the two roots. Given a, b, and c.
           */
 
-
+        a = 1;
+        b = 4;
+        c = 2;
         double firstRoot = (b*b)-(4*a*c);
         firstRoot = Math.sqrt(firstRoot);
-        firstRoot = -1*b+firstRoot;
+        firstRoot = -b+firstRoot;
+        double secondRoot = b+firstRoot/2*a;
         firstRoot = firstRoot/2*a;//Everytime I try to do this equation in different ways it comes out as NaN
 
-        System.out.print(firstRoot);
-        
+        System.out.println(firstRoot);
+
+        System.out.println(secondRoot);
+
 
         //  = (-1*b+ Math.sqrt(b*b-4*a*c)) /2*a;
         //  = (-1 * b - Math.sqrt(b*b - 4*a*c)) /2*a;
