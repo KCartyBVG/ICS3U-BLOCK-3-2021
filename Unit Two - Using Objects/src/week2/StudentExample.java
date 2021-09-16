@@ -20,6 +20,9 @@ public class StudentExample {
 
         // ritchie.increaseGrade();    // throws java.Long.NullPointerException because ritchie is null
 
+           // yola.addTest(87);
+          //  yola.displayAverage();
+          //  yola.addTest(91);
         
     }
 }
