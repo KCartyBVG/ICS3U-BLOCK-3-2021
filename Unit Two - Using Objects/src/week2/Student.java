@@ -4,6 +4,8 @@ package week2;
  * A class is a blue print for something that we can model and create variables
  * to use in our code.
  * 
+ * a blue print to create usable objects
+ * 
  * This code (class) defines what a Student is
  */
 public class Student {
@@ -35,6 +37,11 @@ public class Student {
    */
   public void displayName() {
     System.out.println(name);
+
+    /**
+     * A void method performs a task and returns NOTHING
+     * non-static means that each object gets it's own version (ex. name, studentNumber, grade, )
+     */
   }
 
   public void displayStudentNumber() {
