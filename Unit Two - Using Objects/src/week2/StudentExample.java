@@ -23,6 +23,12 @@ public class StudentExample {
            // yola.addTest(87);
           //  yola.displayAverage();
           //  yola.addTest(91);
+
+          Student harrison = new Student("Harrison", "547284");
+
+
+          double yolaAverage = yola.getAverage();
+          System.out.println(yola.getName() + " has an average of " + yola.getAverage());
         
     }
 }
