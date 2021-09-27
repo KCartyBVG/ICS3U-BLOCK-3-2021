@@ -103,8 +103,8 @@ int num2 = (int) (Math.random()*6) +1;
        * 
        * (y2-y1)/(x2-x1)
        */
-      public static int questionEight(int x1, int y1, int x2, int y2) {
-        int slope = (y2-y1)/(x2-x1);
+      public static double questionEight(int x1, int y1, int x2, int y2) {
+        double slope = (double) (y2-y1)/(x2-x1);
 
         return slope;
 
@@ -126,7 +126,7 @@ int num2 = (int) (Math.random()*6) +1;
 
         public static String questionTen(String str) {
             int numPosibilities = str.length();
-            int random = (int) (Math.random()*numPosibilities) +1;
+            int random = (int) (Math.random()*numPosibilities) +0;
             String front = str.substring(0, random);
             String back = str.substring(random+1);
 
