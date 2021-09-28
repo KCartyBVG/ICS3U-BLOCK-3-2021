@@ -16,8 +16,12 @@ public class BayviewGlenPools {
 
         double volume = getVolume(length, width, shallowHeight, shallowLength, transition, deepHeight);
 
-        System.out.println(surfaceArea);
-        System.out.println(volume);
+
+        System.out.println("Surface Area: " + (int)(surfaceArea * linerCost*100 ) / 100.0);
+
+        System.out.println("Volume: " + (int) (volume*0.9* 100) / 100.0);
+        System.out.println("Cost: $" + (int)(surfaceArea * linerCost*100 ) / 100.0);
+
 
     }
 
