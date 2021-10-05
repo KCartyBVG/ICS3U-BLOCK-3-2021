@@ -1,9 +1,11 @@
 package week5;
 
+import java.util.Scanner;
+
 public class CrossCountry {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        processRunner(in);
+        processRunner(in);  //caling the function 3 times, once for each runner.
         processRunner(in);
         processRunner(in);
 
@@ -11,22 +13,36 @@ public class CrossCountry {
     }
 
     private static void processRunner(Scanner in) {
-        String firstName, lastName;
-        String mileOne, mileTwo, mileThree;
+        String firstName, lastName;             // creating all variables to use.
+        String mileOne, mileTwo, finishTime;
 
         String splitTwo, splitThree;
 
-        /**
-         * get the name and mile one, mile two, finish time from the user
-         */
+        System.out.print("Please insert your first name: ");
+        firstName = in.nextLine();
+
+        System.out.print("Please insert your last name: ");
+        lastName = in.nextLine();
+
+        System.out.print("Please insert your mile one time: ");
+        mileOne = in.nextLine();
+
+        System.out.print("Please insert your time after your second mile: ");
+        mileTwo = in.nextLine();
+
+        System.out.print("Please insert your final time: ");
+        finishTime = in.nextLine();
+
 
          splitTwo = subtractTimes(mileTwo, mileOne);
-         splitThree = subtractTimes(mileThree, mileTwo);
+         splitThree = subtractTimes(finishTime, mileTwo);
 
-         /**
-          * display a summary for the runner
-          */
-    }
+
+          System.out.println("Summary for " + lastName + ", " + firstName);
+          System.out.println("Split one: " + mileOne);
+          System.out.println("Split two: " + splitTwo);
+          System.out.println("Split three:" + splitThree);
+        }
 
     /**
      * subtractTimes is used to find the splits (the difference between the given times).
@@ -49,10 +65,10 @@ public class CrossCountry {
      * @return
      */
     private static String convertToTime(double diffInSeconds) { 
-        double mins = getMinutes(diffInSeconds); // using getMinutes to seperate the minutes from the seconds.
+        int mins = getMinutes(diffInSeconds); // using getMinutes to seperate the minutes from the seconds.
         double seconds = getSeconds(diffInSeconds); // using getSeconds to get the remaining seconds.
 
-        return mins + ":" + seconds;
+        return String.format("%d:%06.3f", mins, seconds);
     }
 
     /**
@@ -70,9 +86,9 @@ public class CrossCountry {
      * @param diffInSeconds
      * @return
      */
-    private static double getMinutes(double diffInSeconds) {
-        double mins = (int) (diffInSeconds/60); //dividing the total seconds by 60 will find the number of full minutes. casting it to an int will get rid of the decimals.
-        return mins;
+    private static int getMinutes(double diffInSeconds) {
+        return (int) (diffInSeconds/60); //dividing the total seconds by 60 will find the number of full minutes. casting it to an int will get rid of the decimals.
+        
     }
 
     /**
@@ -80,10 +96,10 @@ public class CrossCountry {
      * @param Time
      * @return
      */
-    private static double convertToSeconds(String Time) {
-    int colon = Time.indexOf(":"); 
-    String mins = Time.substring(0, colon); // seperating the minutes from the seconds in the String
-    String seconds = Time.substring(colon);
+    private static double convertToSeconds(String time) {
+    int colon = time.indexOf(":"); 
+    String mins = time.substring(0, colon); // seperating the minutes from the seconds in the String
+    String seconds = time.substring(colon+1);
 
     Double minsNum = Double.valueOf(mins); //converting the Strings(seconds and minutes) into double so be used at numbers. 
     Double secondsNum = Double.valueOf(seconds);
