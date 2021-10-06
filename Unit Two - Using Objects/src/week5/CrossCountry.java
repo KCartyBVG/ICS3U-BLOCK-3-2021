@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class CrossCountry {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+
         processRunner(in);  //caling the function 3 times, once for each runner.
         processRunner(in);
         processRunner(in);
