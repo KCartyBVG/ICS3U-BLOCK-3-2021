@@ -5,7 +5,7 @@ public class WhileLoops {
         exampleOne();
         exampleTwo();
         int numVowels = countVowels("This is a sentence with vowels");
-        System.out.println(countVowels);
+        System.out.println(numVowels);
     }
 
     private static int countVowels(String str) {
