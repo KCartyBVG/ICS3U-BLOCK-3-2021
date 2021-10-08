@@ -6,7 +6,7 @@ public class CrossCountry {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        processRunner(in);  //caling the function 3 times, once for each runner.
+        processRunner(in);  //calling the function 3 times, once for each runner.
         processRunner(in);
         processRunner(in);
 
@@ -19,7 +19,7 @@ public class CrossCountry {
 
         String splitTwo, splitThree;
 
-        System.out.print("Please insert your first name: ");
+        System.out.print("Please insert your first name: "); // getting all information from the user by asking for their names and times. 
         firstName = in.nextLine();
 
         System.out.print("Please insert your last name: ");
@@ -35,11 +35,11 @@ public class CrossCountry {
         finishTime = in.nextLine();
 
 
-         splitTwo = subtractTimes(mileTwo, mileOne);
+         splitTwo = subtractTimes(mileTwo, mileOne); // finding the splits by subrtacting times
          splitThree = subtractTimes(finishTime, mileTwo);
 
 
-          System.out.println("Summary for " + lastName + ", " + firstName);
+          System.out.println("Summary for " + lastName + ", " + firstName); // printing summary
           System.out.println("Split one: " + mileOne);
           System.out.println("Split two: " + splitTwo);
           System.out.println("Split three:" + splitThree);
