@@ -6,6 +6,33 @@ public class practice {
         // three("television");
 
         System.out.println(convertToSeconds("5:34.78"));
+
+        System.out.println(rollerCoaster(true, true));
+
+        System.out.print(backwards("FLOWER"));
+    }
+
+    private static String backwards(String str) {
+        String word = "";
+        for (int i= str.length()-1; i>=0;i--) {
+            String letter = str.substring(i, i+1);
+            word += letter;
+        } 
+        return word;
+    }
+
+
+    private static int rollerCoaster(boolean funnelCake, boolean slushie) {
+       int throwUp = 0;
+        if (funnelCake == false && slushie == false){
+            throwUp = 0;
+        } else if (funnelCake == true && slushie == false) {
+            throwUp = 4;
+        } else if (slushie == true && funnelCake == false) {
+            throwUp = 2;
+        } else 
+            throwUp = 8;
+        return throwUp;
     }
 
     private static double convertToSeconds(String str) {
