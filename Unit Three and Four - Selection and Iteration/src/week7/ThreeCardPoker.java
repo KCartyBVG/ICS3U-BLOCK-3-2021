@@ -25,18 +25,18 @@ public class ThreeCardPoker {
         String playerHand = " ";
         playerHand += getCard(playerHand) + " ";
         playerHand += getCard(playerHand) + " ";
-        playerHand += getCard(playerHand) + " ";
+        playerHand += getCard(playerHand);
         
 
         System.out.println(playerHand);
         
 
-       // playerHand = discard(in, playerHand);
+       playerHand = discard(in, playerHand);
         
-
+        System.out.println(playerHand);
     }
 
-    /*private static String discard(Scanner in, String playerHand) {
+    private static String discard(Scanner in, String playerHand) {
        //ex. playerHand = "6H 2D AH"
        
         // ask how many cards to discard
@@ -51,16 +51,47 @@ public class ThreeCardPoker {
         if (discard == 0) {
 
         }else if (discard == 3) {
+            playerHand = getCard(playerHand) + " " + getCard(playerHand) + " " + getCard(playerHand);
+        } else if (discard == 1) {
+            System.out.print("What card would you like to replace? [Ex. 2D or KS]: ");
+            String replaceCard = in.nextLine();
 
+            
+            String newTwo = getCard(playerHand);
+            playerHand = playerHand.replace(replaceCard, newTwo);
+                
+            
+        }else if (discard == 2) {
+            System.out.print("What cards would you like to replace? [Ex. 2D KS or 3S AC]: ");
+            String replaceCards = in.nextLine();
+
+            //index of cards, length of cards, new variable for substring in playerHand, replace like above            
+            String cardOne = replaceCards.substring(0, 2);
+            String cardTwo = replaceCards.substring(3, 5);
+
+            int indexFirstCard = playerHand.indexOf(cardOne);
+            int firstCardLength = cardOne.length();
+
+            String firstCard = playerHand.substring(indexFirstCard, indexFirstCard + firstCardLength);
+
+            playerHand = playerHand.replace(firstCard, getCard(playerHand));
+
+            int indexSecondCard = playerHand.indexOf(cardTwo);
+            int secondCardLength = cardTwo.length();
+
+            String secondCard = playerHand.substring(indexSecondCard, indexSecondCard + secondCardLength);
+
+            playerHand = playerHand.replace(secondCard, getCard(playerHand));
         }
-
+        
 
         // ex. if 1 card then user will type 6H (if they dont have 6H it will let them know that its not good input)
 
-        // ex if 2 cards then user will type 6H AD ()
+        // ex if 2 cards then user will type 6H AD (seperate the two cards and replace them serparatly)
 
         //return their new hand
-    }*/
+        return playerHand;
+    }
 
     private static String getCard(String usedCards) {
         String card = getFace() + getSuit();
