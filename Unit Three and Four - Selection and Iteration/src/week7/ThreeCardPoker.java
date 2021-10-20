@@ -7,91 +7,166 @@ public class ThreeCardPoker {
     private static final String HEARTS = "H";
     private static final String DIAMONDS = "D";
     private static final String CLUBS = "C";
-    private static final String  SPADES = "S";
+    private static final String SPADES = "S";
     private static final double CARDS_PER_SUIT = 13;
     private static final String ACE = "A";
     private static final String JACK = "J";
     private static final String QUEEN = "Q";
     private static final String KING = "K";
+    private static final int PLAYER_WINS = 1;
+    private static final int DEALER_WINS = 2;
+    private static final int TIE = 3;
+    private static final int STRAIGHT_FLUSH = 6;
+    private static final int FLUSH = 5;
+    private static final int STRAIGHT = 4;
+    private static final int THREE_OF_A_KIND = 3;
+    private static final int PAIR = 2;
+    private static final int HIGH_CARD = 1;
 
     public static void main(String[] args) {
         // 7H AC KD - seven of hearts, ace of clubs, king of diamonds
 
         int wallet = 500;
         Scanner in = new Scanner(System.in);
-        int bet = getWager(in, 50, 100, wallet);
-
-
-        String playerHand = " ";
-        playerHand += getCard(playerHand) + " ";
-        playerHand += getCard(playerHand) + " ";
-        playerHand += getCard(playerHand);
-        
-
-        System.out.println(playerHand);
-        
-
-       playerHand = discard(in, playerHand);
-        
-        System.out.println(playerHand);
-    }
-        /*
-    private static String discard(Scanner in, String playerHand) {
-       //ex. playerHand = "6H 2D AH"
-       
-        // ask how many cards to discard
-
-        System.out.print("How many cards would you like to discard? [0, 1, 2, 3]: ");
-        int discard = Integer.parseInt(in.nextLine());
-
-        // 0 - do nothing
-        // 3 - get them three cards to replace their old cards
-        // 1 and 2 => ask them the cards to replace
-
-        if (discard == 0) {
-
-        }else if (discard == 3) {
-            playerHand = getCard(playerHand) + " " + getCard(playerHand) + " " + getCard(playerHand);
-        } else if (discard == 1) {
-            System.out.print("What card would you like to replace? [Ex. 2D or KS]: ");
-            String replaceCard = in.nextLine();
-
-            
-            String newTwo = getCard(playerHand);
-            playerHand = playerHand.replace(replaceCard, newTwo);
-                
-            
-        }else if (discard == 2) {
-            System.out.print("What cards would you like to replace? [Ex. 2D KS or 3S AC]: ");
-            String replaceCards = in.nextLine();
-
-            //index of cards, length of cards, new variable for substring in playerHand, replace like above            
-            String cardOne = replaceCards.substring(0, 2);
-            String cardTwo = replaceCards.substring(3, 5);
-
-            int indexFirstCard = playerHand.indexOf(cardOne);
-            int firstCardLength = cardOne.length();
-
-            String firstCard = playerHand.substring(indexFirstCard, indexFirstCard + firstCardLength);
-
-            playerHand = playerHand.replace(firstCard, getCard(playerHand));
-
-            int indexSecondCard = playerHand.indexOf(cardTwo);
-            int secondCardLength = cardTwo.length();
-
-            String secondCard = playerHand.substring(indexSecondCard, indexSecondCard + secondCardLength);
-
-            playerHand = playerHand.replace(secondCard, getCard(playerHand));
+        int minBet = 50, maxBet = 100;
+        boolean playAgain = true;
+        while (playAgain) {
+            wallet = playPokerHand(in, wallet, minBet, maxBet);
+            if (wallet >= 100)
+                playAgain = playAgain(in);
+            else {
+                System.out.println("You don't have enough money to play again!");
+                playAgain = false;
+            }
         }
+    }
+
+    private static boolean playAgain(Scanner in) {
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.println("Do you want to play again ([Y]es / [N]o)");
+            String answer = in.nextLine().toUpperCase();
+            if (answer.equals("YES") || answer.equals("Y"))
+                return true;
+            else if (answer.equals("NO") || answer.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Invalid Input: Yes or No only!");
+            }
+        }
+
+        return false;
+    }
+
+   private static int playPokerHand(Scanner in, int wallet, int i, int j) {
+      int bet = getWager(in, 50, 100, wallet);
+       String playerHand = "";
+       String dealerHand = "";
+
+
+       playerHand += getCard(playerHand) + " ";
+       playerHand += getCard(playerHand) + " ";
+       playerHand += getCard(playerHand) + " ";
+
+       dealerHand += getCard(playerHand + dealerHand) + " ";
+       dealerHand += getCard(playerHand + dealerHand) + " ";
+       dealerHand += getCard(playerHand + dealerHand) + " ";
         
 
-        // ex. if 1 card then user will type 6H (if they dont have 6H it will let them know that its not good input)
+       System.out.println(playerHand);
+       System.out.println("XX XX XX");
+        
+        //starting here : if (fold) ... + add fold method
+        if (fold(in)) {
+            wallet -= bet;
+            return wallet;
+         }
+   
+         bet += getWager(in, 50, 100, wallet);
+         playerHand = discard(in, playerHand);
+         System.out.println("Player: " + playerHand);
+         System.out.println("Dealer: " + dealerHand);
+   
+         if (getWinner(playerHand, dealerHand) == PLAYER_WINS) {
+            System.out.println("Player Wins!!!");
+            wallet += bet;
+         } else if (getWinner(playerHand, dealerHand) == DEALER_WINS) {
+            System.out.println("Dealer Wins!!!");
+            wallet -= bet;
+         } else {
+            System.out.println("Tie!!!");
+         }
+   
+         return wallet;
+    }
 
-        // ex if 2 cards then user will type 6H AD (seperate the two cards and replace them serparatly)
+    private static int getWinner(String playerHand, String dealerHand) {
+        if (getHandValue(playerHand) > getHandValue(dealerHand))
+           return PLAYER_WINS;
+        else if (getHandValue(playerHand) < getHandValue(dealerHand))
+           return DEALER_WINS;
+        else if (getHighCard(playerHand) > getHighCard(dealerHand))
+           return PLAYER_WINS;
+        else if (getHighCard(playerHand) < getHighCard(dealerHand))
+           return DEALER_WINS;
+        else
+           return TIE;
+     }
 
-        //return their new hand
-        return playerHand;
-    }*/
+     private static int getHighCard(String cards) {
+        return 0;
+     }
+  
+     private static int getHandValue(String cards) {
+        if (isFlush(cards) && isStraight(cards))
+           return STRAIGHT_FLUSH;
+        else if (isFlush(cards))
+           return FLUSH;
+        else if (isStraight(cards))
+           return STRAIGHT;
+        else if (isThreeOfAKind(cards))
+           return THREE_OF_A_KIND;
+        else if (isPair(cards))
+           return PAIR;
+        else
+           return HIGH_CARD;
+  
+     }
+
+     private static boolean isPair(String cards) {
+        return false;
+     }
+  
+     private static boolean isThreeOfAKind(String cards) {
+        return false;
+     }
+  
+     private static boolean isStraight(String cards) {
+        return false;
+     }
+  
+     private static boolean isFlush(String cards) {
+        return false;
+     }
+  
+    private static boolean fold(Scanner in) {
+        boolean validInput = false;
+  
+        while (!validInput) {
+           System.out.print("Fold or Discard ([F]old / [D]iscard): ");
+           String answer = in.nextLine().toUpperCase();
+           if (answer.equals("FOLD") || answer.equals("F"))
+              return true;
+           else if (answer.equals("DISCARD") || answer.equals("D")) {
+              return false;
+           } else {
+              System.out.println("Invalid Input: Fold or Discard only!");
+           }
+        }
+  
+        return false;
+     } 
 
     private static String discard(Scanner in, String playerHand) {
         int numCardsToReplace = getNumberToDiscard(in);
