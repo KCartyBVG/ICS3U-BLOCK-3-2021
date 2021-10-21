@@ -115,7 +115,34 @@ public class ThreeCardPoker {
      }
 
      private static int getHighCard(String cards) {
-        return 0;
+        int highestValue = 0;
+      if (cards.indexOf("A") > 0){
+           highestValue = 14;
+      }else if (cards.indexOf("K") > 0){
+         highestValue = 13;
+      }else if (cards.indexOf("Q") > 0){
+         highestValue = 12;
+      }else if (cards.indexOf("J") > 0){
+         highestValue = 11;
+      }else if (cards.indexOf("10") > 0){
+         highestValue = 10;
+      }else if (cards.indexOf("9") > 0){
+         highestValue = 9;
+      }else if (cards.indexOf("8") > 0){
+         highestValue = 8;
+      }else if (cards.indexOf("7") > 0){
+         highestValue = 7;
+      }else if (cards.indexOf("6") > 0){
+         highestValue = 6;
+      }else if (cards.indexOf("5") > 0){
+         highestValue = 5;
+      }else if (cards.indexOf("4") > 0){
+         highestValue = 4;
+      }else if (cards.indexOf("3") > 0){
+         highestValue = 3;
+      }else
+         highestValue = 2;
+         return highestValue;
      }
   
      private static int getHandValue(String cards) {
@@ -200,7 +227,7 @@ public class ThreeCardPoker {
         boolean validInput = false;
         int val = 0;
         while (!validInput) {
-           System.out.print("Hoe many cards to discard [0,3]: ");
+           System.out.print("How many cards to discard [0,3]: ");
            try {
               val = Integer.parseInt(in.nextLine());
   
@@ -221,7 +248,7 @@ public class ThreeCardPoker {
         boolean validInput = false;
         String cards = "";
         while (!validInput) {
-           System.out.println("Please enter the cards to replace: (ex. 7H KD): ");
+           System.out.print("Please enter the cards to replace: (ex. 7H KD): ");
            cards = in.nextLine().toUpperCase();
            if (countOccurences(cards, " ") != numCardsToReplace - 1) {
               System.out.println("You must choose " + numCardsToReplace + " cards.");
