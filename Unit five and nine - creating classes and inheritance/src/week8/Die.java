@@ -40,11 +40,12 @@ public class Die {
         if (obj == this);
             return true;
 
-        if (obj instanceof Die) {
+        /*if (obj instanceof Die) {
             return this.topSide == ((Die) obj).topSide;
         }else { 
             return false;
         }
+        */
     }
 
     public String toString() {
