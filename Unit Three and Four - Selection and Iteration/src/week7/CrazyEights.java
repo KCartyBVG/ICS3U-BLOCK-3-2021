@@ -203,19 +203,20 @@ public class CrazyEights {
                 cHand = cHand.substring(0, cHand.indexOf(numCard)).trim() + " " + cHand.substring(cHand.indexOf(numCard) + numCard.length()).trim();
                 result = cHand.trim() + "-" + numCard;
                 play = false;
-            } else if (cHand.indexOf(topSuit) >= 0) { // if rule 1 and 2 is false BUT they have an eight, they can play it and change to a suit they have
-                cHand = cHand.substring(0, cHand.indexOf(suitCard)).trim() + " " + cHand.substring(cHand.indexOf(suitCard) + suitCard.length()).trim();
-                String suit = suitCard.substring(suitCard.length() - 1); 
+            } else if (cHand.indexOf("8") >= 0) { // if rule 1 and 2 is false BUT they have an eight, they can play it and change to a suit they have
+                String eightCard = cHand.substring(cHand.indexOf("8")-1, cHand.indexOf("8") +1);
+                // 8D
+                cHand = cHand.substring(0, cHand.indexOf(eightCard)).trim() + " " + cHand.substring(cHand.indexOf(eightCard) + 2).trim();
+                String suit = eightCard.substring(1); 
                 if (cHand.indexOf(suit) >= 0) {
-                    result = cHand.trim() + "-" + suitCard;
+                    result = cHand.trim() + "-" + eightCard;
                 } else if (cHand.length() > 3) { // find first card in hand (seperate by " "), seperate the number and the suit
                     int space = cHand.indexOf(" ");
                     String firstCard = cHand.substring(0, space);
-                    String firstSuit = firstCard.substring(firstCard.length() - 2);
-                    String firstNum = suitCard.substring(0, suitCard.length() - 2);
-                    result = cHand.trim() + "-" + firstNum + suit;
+                    String firstSuit = firstCard.substring(firstCard.length() - 1);
+                    result = cHand.trim() + "-" + firstCard.replace(firstSuit, suit);
                 } else { // if they have an eight, and its the last card left
-                    result = "-" + suitCard;
+                    result = "-" + eightCard;
                 }
                 play = false;
             } else if (cHand.indexOf(numCard) >= 0 && numCard.indexOf("8") >= 0) {
@@ -318,10 +319,10 @@ public class CrazyEights {
                 while (!valid) {
                 System.out.print("What would you like to change the suit to? (Ex. D, S, C, H): ");
                 String newSuit = in.nextLine().toUpperCase();
-                    if (!(newSuit.equals("D") && newSuit.equals("S") && newSuit.equals("C") && newSuit.equals("H"))) {
-                        System.out.print("Not a valid suit. Please chose D, S, C or H.");
+                    if (!(newSuit.equals("D") || newSuit.equals("S") || newSuit.equals("C") || newSuit.equals("H"))) {
+                        System.out.print("Not a valid suit. Please chose D, S, C or H. ");
                     } else {
-                        String oldSuit = card.substring(0, card.length()-1);
+                        String oldSuit = card.substring(1);
                         card = card.replace(oldSuit, newSuit);
                         valid = true;
                     } 
