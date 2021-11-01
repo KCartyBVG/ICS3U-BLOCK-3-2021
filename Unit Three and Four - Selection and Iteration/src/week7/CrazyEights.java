@@ -15,6 +15,7 @@ public class CrazyEights {
     private static final String KING = "K";
 
     public static void main(String[] args) {
+        
 
         boolean gameOver = false;
         Scanner in = new Scanner(System.in);
@@ -23,7 +24,7 @@ public class CrazyEights {
         // playRound: return "0-34-23". seperate the points between dashes
 
         while (!gameOver(userPoints, c1Points, c2Points)) { // (gameOver is method that retuns true/false)
-            String result = playRound(in); // return "37-0-12"
+            String result = playRound(in, userPoints, c1Points, c2Points); // return "37-0-12"
             int firstDash = result.indexOf("-");
             int secondDash = result.indexOf("-", firstDash + 1);
             userPoints += Integer.parseInt(result.substring(0, firstDash));
@@ -32,7 +33,7 @@ public class CrazyEights {
 
             // calculate points for each player
         }
-
+        System.out.println("---------------------------------");
         if (userPoints < c1Points && userPoints < c2Points) {
             System.out.println("Player wins with " + userPoints + " points!!!");
             System.out.println("Computer 1 points: " + c1Points);
@@ -44,7 +45,7 @@ public class CrazyEights {
         } else if (c2Points < userPoints && c2Points < c1Points) {
             System.out.println("Computer 2 wins with " + c2Points + " points!!!");
             System.out.println("Player points: " + userPoints);
-            System.out.println("Computer ");
+            System.out.println("Computer 1 points: " + c1Points);
         } else if (c2Points == userPoints && c2Points < c1Points) {
             System.out.println("Player and Computer 2 are tied with " + c2Points + "points!!!");
             System.out.println("Computer 1 points: " + c1Points);
@@ -57,15 +58,16 @@ public class CrazyEights {
         } else if (c2Points == c1Points && c2Points == userPoints) {
             System.out.println("All players tie with " + userPoints + "points!!!");
         }
+        System.out.println("---------------------------------");
 
-        System.out.println("Current Score: " + userPoints + " " + c1Points + " " + c2Points);
+
     }
 
     private static boolean gameOver(int p1Points, int c1Points, int c2Points) {
         return p1Points >= 100 || c1Points >= 100 || c2Points >= 100;
     }
 
-    private static String playRound(Scanner in) {
+    private static String playRound(Scanner in, int userPoints, int c1Points, int c2Points) { //playRound(in, userPoints, c1Points, c2Points
         String userHand = "";
         String c1Hand = "";
         String c2Hand = "";
@@ -96,17 +98,19 @@ public class CrazyEights {
 
         while (keepPlaying) {
             System.out.println("---------------------------------");
-            System.out.println("c1 hand: " + c1Hand); 
-            System.out.println("c2 hand: " + c2Hand); 
             String temp = processPlayer(userHand, topCard, in);
             userHand = temp.substring(0, temp.indexOf("-"));
             topCard = temp.substring(temp.indexOf("-") + 1);
             
             temp = processComputer(c1Hand, topCard);
-            c1Hand = temp.substring(0, temp.indexOf("-")); // FIND NUMBER OF CARDS IN HAND, PRINT x NUMBER OF Xs
+            c1Hand = temp.substring(0, temp.indexOf("-"));
+            System.out.println("c1 hand: " + c1Hand); 
+
             topCard = temp.substring(temp.indexOf("-") + 1);
             temp = processComputer(c2Hand, topCard);
             c2Hand = temp.substring(0, temp.indexOf("-"));
+            System.out.println("c2 hand: " + c2Hand); 
+
             topCard = temp.substring(temp.indexOf("-") + 1);
             if (userHand.equals("") || c1Hand.equals("") || c2Hand.equals("")) {
                 keepPlaying = false;
@@ -114,14 +118,17 @@ public class CrazyEights {
         }
 
         // calculate points for each player
-        int userPoints = countPoints(userHand);
-        int c1Points = countPoints(c1Hand);
-        int c2Points = countPoints(c2Hand);
 
+        userPoints += countPoints(userHand);
+        c1Points += countPoints(c1Hand);
+        c2Points += countPoints(c2Hand);
+        
+
+        System.out.println("---------------------------------");
         System.out.println("Current Scores: ");
-        System.out.println("Player points:" + userPoints);
+        System.out.println("Player points: " + userPoints);
         System.out.println("Computer 1 points: " + c1Points);
-        System.out.println("Computer 2 points:" + c2Points);
+        System.out.println("Computer 2 points: " + c2Points);
         String result = userPoints + "-" + c1Points + "-" + c2Points;
 
         return result;
@@ -131,7 +138,7 @@ public class CrazyEights {
     private static int countPoints(String hand) {
         // 7H 8C 3D KS
         int points = 0;
-        for (int i = 0; i <= hand.length(); i++) {
+        for (int i = 0; i <= hand.length() - 1; i++) {
             String letter = hand.substring(i, i + 1);
             if (letter.equals("A")) {
                 points += 1;
@@ -180,7 +187,7 @@ public class CrazyEights {
             // if suit is found in string, make substring for that card, check that its not
             // eight, take out of hand
             if (cHand.indexOf(topSuit) >= 0) {
-                if (cHand.length() ==2 || !((cHand.substring(cHand.indexOf(topSuit)-1, cHand.indexOf(topSuit)).equals("0")))){ // NOT 10C OR its the last card and the lenght of the card is 2
+                if (cHand.length() ==2 || !((cHand.substring(cHand.indexOf(topSuit)-1, cHand.indexOf(topSuit)).equals("0")))){ // NOT 10- OR its the last card and the lenght of the card is 2
                     suitCard = cHand.substring(cHand.indexOf(topSuit) - 1, cHand.indexOf(topSuit) + 1);
                 }else{
                     suitCard = cHand.substring(cHand.indexOf(topSuit) - 2, cHand.indexOf(topSuit) + 1);
@@ -202,17 +209,16 @@ public class CrazyEights {
                     result = cHand.trim() + "-" + numCard;
                     play = false;
                 } else if (cHand.indexOf("8") >= 0) { // if rule 1 and 2 is false BUT they have an eight, they can play it and change to a suit they have
-                    String eightCard = cHand.substring(cHand.indexOf("8") - 1, cHand.indexOf("8") + 1);
+                    String eightCard = cHand.substring(cHand.indexOf("8"), cHand.indexOf("8") + 2);
                     // 8D
-                    cHand = cHand.substring(0, cHand.indexOf(eightCard)).trim() + " "
-                            + cHand.substring(cHand.indexOf(eightCard) + 2).trim();
+                    cHand = cHand.substring(0, cHand.indexOf(eightCard)).trim() + " " + cHand.substring(cHand.indexOf(eightCard) + 2).trim();
                     String suit = eightCard.substring(1);
                     if (cHand.indexOf(suit) >= 0) {
                         result = cHand.trim() + "-" + eightCard;
                     } else if (cHand.length() > 3) { // find first card in hand (seperate by " "), seperate the number and the suit
                         int space = cHand.indexOf(" ");
                         String firstCard = cHand.substring(0, space);
-                        String firstSuit = firstCard.substring(firstCard.length() - 1);
+                        String firstSuit = firstCard.substring(firstCard.length() - 1); // 8H
                         result = cHand.trim() + "-" + firstCard.replace(firstSuit, suit);
                     } else { // if they have an eight, and its the last card left
                         result = "-" + eightCard;
@@ -247,14 +253,32 @@ public class CrazyEights {
 
         while (!caPlay) {
 
-            if (canPlay(topCard, hand)) {
+            if (canPlay(topCard, hand)) { // 9D 10C (length = 6)
 
-                String playedCard = playCard(in, hand);
+                String temp = playCard(in, hand);
+                if (temp.indexOf("8") >= 0) {
+                int dash = temp.indexOf("-");
+                String newCard = temp.substring(dash+1);
+                String playedCard = temp.substring(0,dash);
 
-                hand = hand.substring(0, hand.indexOf(playedCard)).trim() + " "
-                        + hand.substring(hand.indexOf(playedCard) + playedCard.length()).trim();
+                    if (hand.indexOf(playedCard) == (hand.length()- 2) || hand.indexOf(playedCard) == (hand.length()- 1)) {
+                        hand = hand.substring(0, hand.indexOf(playedCard)).trim();
+                    } else {
+                        hand = hand.substring(0, hand.indexOf(playedCard)).trim() + " " + hand.substring(hand.indexOf(playedCard) + playedCard.length()).trim();
+                        hand = hand.trim();
+                    }
+                    result = hand.trim() + "-" + newCard;
+                } else {
+                    if (hand.indexOf(temp) == (hand.length()- 2) || hand.indexOf(temp) == (hand.length()- 1)) {
+                        hand = hand.substring(0, hand.indexOf(temp)).trim();
+                    } else {
+                        hand = hand.substring(0, hand.indexOf(temp)).trim() + " " + hand.substring(hand.indexOf(temp) + temp.length()).trim();
+                        hand = hand.trim();
+                    }
+                    result = hand.trim() + "-" + temp;
+                }
 
-                result = hand.trim() + "-" + playedCard;
+                
                 caPlay = true;
             } else if (!canPlay(topCard, hand)) { // IF NO PICK UP CARDS
                 
@@ -289,6 +313,7 @@ public class CrazyEights {
         final String VALID_CARDS = "AS2S3S4S5S6S7S8S9S10SJSQSKSAC2C3C4C5C6C7C8C9C10CJCQCKCAD2D3D4D5D6D7D8D9D10DJDQDKDAH2H3H4H5H6H7H8H9H10HJHQHKH";
         boolean validInput = false;
         String card = "";
+        String result = "";
         while (!validInput) {
             System.out.print("What would you like to play? (ex. KD): ");
             card = in.nextLine().toUpperCase();
@@ -299,6 +324,7 @@ public class CrazyEights {
                 System.out.println("You don't have a " + card);
             else if ((playerHand.indexOf(card) >= 0)) {
                 validInput = true;
+                result = card;
             }
             if (card.indexOf("8") >= 0) {
                 // CHANGE SUIT - ask what suit to change it too, change the suit of the card
@@ -311,14 +337,15 @@ public class CrazyEights {
                         System.out.print("Not a valid suit. Please chose D, S, C or H. ");
                     } else {
                         String oldSuit = card.substring(1);
-                        card = card.replace(oldSuit, newSuit);
+                        String newCard = card.replace(oldSuit, newSuit);
                         valid = true;
+                        result = card + "-" + newCard; //8D-8C
                     }
                 }
 
             }
         }
-        return card;
+        return result;
 
     }
 
