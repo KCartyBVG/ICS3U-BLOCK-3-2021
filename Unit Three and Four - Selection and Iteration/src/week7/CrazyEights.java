@@ -23,15 +23,15 @@ public class CrazyEights {
         int userPoints = 0, c1Points = 0, c2Points = 0; // (player points after each round)
         // playRound: return "0-34-23". seperate the points between dashes
 
-        while (!gameOver(userPoints, c1Points, c2Points)) { // (gameOver is method that retuns true/false)
-            String result = playRound(in, userPoints, c1Points, c2Points); // return "37-0-12"
+        while (!gameOver(userPoints, c1Points, c2Points)) { // seperating the points for each player
+            String result = playRound(in, userPoints, c1Points, c2Points); 
             int firstDash = result.indexOf("-");
             int secondDash = result.indexOf("-", firstDash + 1);
             userPoints += Integer.parseInt(result.substring(0, firstDash));
             c1Points += Integer.parseInt(result.substring(firstDash + 1, secondDash));
             c2Points += Integer.parseInt(result.substring(secondDash + 1));
 
-            // calculate points for each player
+            
         }
         System.out.println("---------------------------------");
         if (userPoints < c1Points && userPoints < c2Points) {
@@ -63,7 +63,7 @@ public class CrazyEights {
 
     }
 
-    private static boolean gameOver(int p1Points, int c1Points, int c2Points) {
+    private static boolean gameOver(int p1Points, int c1Points, int c2Points) { // rounds continue until one player reaches 100 points
         return p1Points >= 100 || c1Points >= 100 || c2Points >= 100;
     }
 
@@ -87,7 +87,7 @@ public class CrazyEights {
         String topCard = getCard();
         boolean eight = true;
 
-        while (eight) {
+        while (eight) { // making sure the first top card in a round isn't an 8
             if (topCard.indexOf("8") > 0) {
                 topCard = getCard();
             } else
@@ -136,7 +136,6 @@ public class CrazyEights {
     }
 
     private static int countPoints(String hand) {
-        // 7H 8C 3D KS
         int points = 0;
         for (int i = 0; i <= hand.length() - 1; i++) {
             String letter = hand.substring(i, i + 1);
@@ -180,13 +179,9 @@ public class CrazyEights {
 
         while (play) {
 
-            // 7H 8C 10C 3D-6D
             String suitCard = "";
             String numCard = "";
-            // 10C
-            // if suit is found in string, make substring for that card, check that its not
-            // eight, take out of hand
-            if (cHand.indexOf(topSuit) >= 0) {
+            if (cHand.indexOf(topSuit) >= 0) {  // if suit is found in string, make substring for that card, check that its not
                 if (cHand.length() ==2 || !((cHand.substring(cHand.indexOf(topSuit)-1, cHand.indexOf(topSuit)).equals("0")))){ // NOT 10- OR its the last card and the lenght of the card is 2
                     suitCard = cHand.substring(cHand.indexOf(topSuit) - 1, cHand.indexOf(topSuit) + 1);
                 }else{
@@ -194,31 +189,31 @@ public class CrazyEights {
                     suitCard = suitCard.trim();
                 }
             }
-            if (cHand.indexOf(topNumber) >= 0) {
+            if (cHand.indexOf(topNumber) >= 0) { // if top number is found in hand
                 numCard = cHand.substring(cHand.indexOf(topNumber), cHand.indexOf(topNumber) + 2);
             }
             int pickedUp = 0;
             if (canPlay(topCard, cHand)) {
-                if (cHand.indexOf(topSuit) >= 0 && suitCard.indexOf("8") < 0) {
+                if (cHand.indexOf(topSuit) >= 0 && suitCard.indexOf("8") < 0) { // if top suit is found and its not an 8
                     cHand = cHand.substring(0, cHand.indexOf(suitCard)).trim() + " " + cHand.substring(cHand.indexOf(suitCard) + suitCard.length()).trim();
                     result = cHand.trim() + "-" + suitCard;
                     play = false;
-                } else if (cHand.indexOf(topNumber) >= 0 && numCard.indexOf("8") < 0) { // IF NOT SUIT -> if number is found in string, make substring for that card, check its not an eight, take out of hand
+                } else if (cHand.indexOf(topNumber) >= 0 && numCard.indexOf("8") < 0) { // if no top suit, chack for top number (still not 8)
                     cHand = cHand.substring(0, cHand.indexOf(numCard)).trim() + " "
                             + cHand.substring(cHand.indexOf(numCard) + numCard.length()).trim();
                     result = cHand.trim() + "-" + numCard;
                     play = false;
                 } else if (cHand.indexOf("8") >= 0) { // if rule 1 and 2 is false BUT they have an eight, they can play it and change to a suit they have
                     String eightCard = cHand.substring(cHand.indexOf("8"), cHand.indexOf("8") + 2);
-                    // 8D
+                    
                     cHand = cHand.substring(0, cHand.indexOf(eightCard)).trim() + " " + cHand.substring(cHand.indexOf(eightCard) + 2).trim();
                     String suit = eightCard.substring(1);
                     if (cHand.indexOf(suit) >= 0) {
                         result = cHand.trim() + "-" + eightCard;
-                    } else if (cHand.length() > 3) { // find first card in hand (seperate by " "), seperate the number and the suit
+                    } else if (cHand.length() > 3) { // find first card in hand (seperate by " "), seperate the number and the suit (use the first suit for new suit)
                         int space = cHand.indexOf(" ");
                         String firstCard = cHand.substring(0, space);
-                        String firstSuit = firstCard.substring(firstCard.length() - 1); // 8H
+                        String firstSuit = firstCard.substring(firstCard.length() - 1); 
                         result = cHand.trim() + "-" + firstCard.replace(firstSuit, suit);
                     } else { // if they have an eight, and its the last card left
                         result = "-" + eightCard;
@@ -249,15 +244,15 @@ public class CrazyEights {
         String result = "";
         int pickedUp = 0;
         boolean caPlay = false;
-        // canPlay(topCard, hand);
+     
 
         while (!caPlay) {
 
-            if (canPlay(topCard, hand)) { // 9D 10C (length = 6)
+            if (canPlay(topCard, hand)) { 
 
                 String temp = playCard(in, hand);
-                if (temp.indexOf("8") >= 0) {
-                int dash = temp.indexOf("-");
+                if (temp.indexOf("8") >= 0) { // if the new card has an eight in it
+                int dash = temp.indexOf("-"); 
                 String newCard = temp.substring(dash+1);
                 String playedCard = temp.substring(0,dash);
 
@@ -268,7 +263,7 @@ public class CrazyEights {
                         hand = hand.trim();
                     }
                     result = hand.trim() + "-" + newCard;
-                } else {
+                } else { // if the card has anything but an 8
                     if (hand.indexOf(temp) == (hand.length()- 2) || hand.indexOf(temp) == (hand.length()- 1)) {
                         hand = hand.substring(0, hand.indexOf(temp)).trim();
                     } else {
@@ -280,14 +275,14 @@ public class CrazyEights {
 
                 
                 caPlay = true;
-            } else if (!canPlay(topCard, hand)) { // IF NO PICK UP CARDS
+            } else if (!canPlay(topCard, hand)) { // IF CANT PLAY AT ALL PICK UP CARDS
                 
                 System.out.println("You can't play. Pick up a card.");
                 hand += " " + getCard();// give player a new card and display their new hand
                 System.out.println("Your new hand: " + hand);
                 System.out.println("---------------------------------");
                 pickedUp++;
-                if (pickedUp >= 5) {
+                if (pickedUp >= 5) { // if they've picked up 5 cards
                     System.out.println("You can't pick up anymore cards.");
                     caPlay = true;
                     result = hand + "-" + topCard;
@@ -299,11 +294,11 @@ public class CrazyEights {
     }
 
     private static boolean canPlay(String topCard, String hand) {
-        String suit = topCard.substring(topCard.length() - 1); // 4D
+        String suit = topCard.substring(topCard.length() - 1);
         String face = topCard.substring(0, topCard.length() - 1);
 
         boolean play = false;
-        if (hand.indexOf("8") >= 0 || hand.indexOf(suit) >= 0 || hand.indexOf(face) >= 0) {
+        if (hand.indexOf("8") >= 0 || hand.indexOf(suit) >= 0 || hand.indexOf(face) >= 0) { // if suit/face/8 is found in hand
             play = true;
         }
         return play;
@@ -317,18 +312,18 @@ public class CrazyEights {
         while (!validInput) {
             System.out.print("What would you like to play? (ex. KD): ");
             card = in.nextLine().toUpperCase();
-            // if " " is found "you can only play 1 card"
-            if (VALID_CARDS.indexOf(card) < 0)
+            if (VALID_CARDS.indexOf(card) < 0) // if card isn't a valid card
                 System.out.println("Not a valid card: " + card);
-            else if (playerHand.indexOf(card) < 0)
+            else if (playerHand.indexOf(card) < 0) // if card isnt found in the player's hand
                 System.out.println("You don't have a " + card);
+            else if (card.indexOf(" ") >= 0)     // if " " is found "you can only play 1 card"
+                System.out.println("You can only choose 1 card.");
             else if ((playerHand.indexOf(card) >= 0)) {
                 validInput = true;
                 result = card;
             }
             if (card.indexOf("8") >= 0) {
                 // CHANGE SUIT - ask what suit to change it too, change the suit of the card
-                // (replace suit with newSuit)
                 boolean valid = false;
                 while (!valid) {
                     System.out.print("What would you like to change the suit to? (Ex. D, S, C, H): ");
@@ -337,7 +332,7 @@ public class CrazyEights {
                         System.out.print("Not a valid suit. Please chose D, S, C or H. ");
                     } else {
                         String oldSuit = card.substring(1);
-                        String newCard = card.replace(oldSuit, newSuit);
+                        String newCard = card.replace(oldSuit, newSuit);  // (replace suit with newSuit)
                         valid = true;
                         result = card + "-" + newCard; //8D-8C
                     }
@@ -349,7 +344,7 @@ public class CrazyEights {
 
     }
 
-    private static String getCard() {
+    private static String getCard() { // picking up a card + adding it to hand
         String card = getFace() + getSuit();
         return card;
     }
