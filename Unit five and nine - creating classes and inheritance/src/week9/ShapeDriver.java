@@ -5,6 +5,10 @@ public class ShapeDriver {
         Rectangle rect1 = new Rectangle(4,5);
         Rectangle rect2 = new Rectangle(7.5);
 
+        Box b1 = new Box(5, 6, 7);
+
+        Rectangle shape = new Box(5, 6, 7);
+
         if (rect1.isSquare())
             System.out.println("Rect 1 is a square.");
         else 
@@ -12,7 +16,7 @@ public class ShapeDriver {
 
         if (rect2.isSquare()) 
             System.out.println("Rect 2 is a square.");
-        else (rect2.isSquare())
+        else 
             System.out.println("Rect 2 is not a square.");
 
 
