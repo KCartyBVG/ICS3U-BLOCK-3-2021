@@ -1,22 +1,24 @@
 package week9;
 
 public class StepTracker {
-    private int daysActive = 0;
-    private int dailySteps;
+    private int daysActive;
     private int minSteps;
-    private int totalSteps = 0;
-    private int numberDays = 0;
+    private int totalSteps;
+    private int numberDays;
 
     public StepTracker(int min) {
         minSteps = min;
+        totalSteps = 0;
+        numberDays = 0;
+        daysActive = 0;
+
     }
 
 
     public void addDailySteps(int steps) {
-        dailySteps = steps;
         totalSteps += steps;
         numberDays++;
-        if (dailySteps >= minSteps)
+        if (steps >= minSteps)
             daysActive++;
     }
     public int activeDays() {
