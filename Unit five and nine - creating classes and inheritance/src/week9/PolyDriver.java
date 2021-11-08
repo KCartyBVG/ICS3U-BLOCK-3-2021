@@ -10,12 +10,15 @@ public class PolyDriver {
         dog.makeSound();
         cat.makeSound();
 
-        Animal animal1 = new Dog();
+       /* Animal animal1 = new Dog();
         animal1.makeSound();
         animal1 = cat;
         animal1.makeSound();
 
         Animal animal2 = new Dog();
         ((Dog) animal2).chaseTail();
+        */
+
+        Poodle myDog = new Poodle("Toy");
     }
 }
