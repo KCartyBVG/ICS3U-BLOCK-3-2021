@@ -1,0 +1,21 @@
+for loop inside a for loop - quadratic
+
+selectionsort algorithm: NOT RESPONSIBLE FOR WRITING, RESPONSIBLE FOR RECONGNIZING
+    - has sorted and unsorted side
+    - uses a for loop, looks for the smallest element
+    - swaps it with the front of the unsorted side/end of sorted side (included in sorted side)
+
+    - uses a for loop to go throught the whole sequence
+- even if its sorted, it still goes through the sorted section - not any faster
+
+
+interionsort algorithm:
+    - grabs the first element from the unsorted side, inserts to the front of the sorted side + shifts other elements
+    - IF THE ARRAY IS ALMOST SORTED, it just moves it over to the sorted side
+    - 
+
+merge sort:
+
+
+
+bubble sort:
