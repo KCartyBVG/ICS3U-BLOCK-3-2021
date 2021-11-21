@@ -86,7 +86,11 @@ public class DoubleArraySequence {
    // The new double array sequence is a copy of the DoubleArraySequence src.
    public DoubleArraySequence(DoubleArraySequence src) {
       this.manyItems = src.manyItems;
-
+      this.currentIndex = src.currentIndex;
+      this.data = new double[src.data.length];
+      for (int i = 0; i < data.length;i++) { 
+         data[i] = src.data[i];
+      }
    }
 
    /**
@@ -106,8 +110,19 @@ public class DoubleArraySequence {
     * @note An attempt to increase the capacity beyond Integer.MAX_VALUE will cause
     *       the sequence to fail with an arithmetic overflow.
     **/
-   public void addAfter(double d) {
+   public void addAfter(double d) { 
 
+      if (manyItems >= data.length){
+         ensureCapacity(manyItems*2);
+      }
+      if(!isCurrent()){
+         data[manyItems] = d;
+         manyItems++;
+      }else{         
+         data[currentIndex+1] = d;
+         currentIndex++;
+         manyItems++;
+      }
    }
 
    /**
@@ -128,7 +143,24 @@ public class DoubleArraySequence {
     *       the sequence to fail with an arithmetic overflow.
     **/
    public void addBefore(double element) {
-
+      if (manyItems >= data.length){
+         ensureCapacity(manyItems*2);
+      }
+      if(!isCurrent()){
+         for (int i = manyItems; i > 0; i--) {
+            data[i] = data[i-1];
+         }
+         data[0] = element;
+         currentIndex = 0;
+         //data[manyItems] = element;
+         manyItems++;
+      }else{
+         for (int i = manyItems; i > currentIndex; i--) {
+            data[i] = data[i-1];
+         }
+         data[currentIndex] = element;
+         manyItems++;
+      }
    }
 
    /**
@@ -147,7 +179,19 @@ public class DoubleArraySequence {
     *       an arithmetic overflow that will cause the sequence to fail.
     **/
    public void addAll(DoubleArraySequence addend) {
-
+      if (addend == null)
+         throw new  NullPointerException("addend can't be null.");
+      int temp = this.currentIndex;
+      if (manyItems !=0){
+         this.currentIndex = manyItems;
+      }
+      if (manyItems+addend.manyItems >= data.length){
+         ensureCapacity(manyItems+addend.manyItems);
+      }
+      for (int i = 0; i < addend.manyItems; i++) {
+         addAfter(addend.data[i]);
+      }
+      currentIndex = temp;
    }
 
    /**
@@ -187,7 +231,15 @@ public class DoubleArraySequence {
     *       sequence to fail.
     **/
    public static DoubleArraySequence catenation(DoubleArraySequence s1, DoubleArraySequence s2) {
-      return null;
+    // DoubleArraySequence temp = new DoubleArraySequence(s1.manyItems + s2.manyItems);
+     DoubleArraySequence temp = new DoubleArraySequence(s1);
+     // temp.ensureCapacity(s1.manyItems + s2.manyItems);
+      //temp.addAll(s1);
+      temp.addAll(s2);
+
+      temp.currentIndex = s1.manyItems + s2.manyItems;
+     
+      return temp;
 
    }
 
@@ -202,7 +254,13 @@ public class DoubleArraySequence {
     *                             int[minimumCapacity].
     **/
    public void ensureCapacity(int minimumCapacity) {
-
+      if(data.length < minimumCapacity){
+         double[] arr = new double[minimumCapacity];
+         for (int i = 0; i < data.length; i++) {
+            arr[i] = data[i];
+         }
+         data = arr;
+      }
    }
 
    /**
@@ -258,7 +316,16 @@ public class DoubleArraySequence {
     *                                  so removeCurrent may not be called.
     **/
    public void removeCurrent() {
-
+      if (!isCurrent()){
+         throw new IllegalStateException("No Current Element");
+      }else {
+         for (int i = currentIndex; i < manyItems-1; i++) {
+            data[i] = data[i+1];
+         }
+         manyItems--;
+         if (currentIndex == data.length-1)
+            currentIndex = manyItems;
+      }
    }
 
    /**
